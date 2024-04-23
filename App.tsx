@@ -1,25 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { Button } from "./src/components/Button";
 import { OrderBook } from "./src/screens/OrderBook";
-import startNetworkListener from "./src/services/networkingService/networkingService";
-import { useEffect } from "react";
-import { Provider, useSelector } from "react-redux";
-import store, { RootState } from "./src/store/store";
+import { Provider } from "react-redux";
+import store from "./src/store/store";
 
 export default function App() {
   return (
     <Provider store={store}>
+      <StatusBar style="light" />
       <OrderBook />
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

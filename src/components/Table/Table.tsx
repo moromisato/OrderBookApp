@@ -1,20 +1,33 @@
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { THEME } from "../../theme/theme";
 
-export type Data = number[][];
-
 interface TableProps {
-  data: Data;
+  data: {
+    key: string;
+    type: string;
+    price: number;
+    count: number;
+    amount: number;
+  }[];
 }
 
 export const Table = ({ data }: TableProps) => {
-  const renderItem = ({ item }: { item: number[] }) => {
-    const [price, count, amount] = item;
+  const renderItem = ({
+    item,
+  }: {
+    item: {
+      key: string;
+      type: string;
+      price: number;
+      count: number;
+      amount: number;
+    };
+  }) => {
     return (
       <View style={styles.tableRow}>
-        <Text style={styles.tableRowText}>{price}</Text>
-        <Text style={styles.tableRowText}>{count}</Text>
-        <Text style={styles.tableRowText}>{amount}</Text>
+        <Text style={styles.tableCountColumn}>{item.count}</Text>
+        <Text style={styles.tableRowText}>{item.amount}</Text>
+        <Text style={styles.tableRowText}>{item.price}</Text>
       </View>
     );
   };
@@ -25,12 +38,17 @@ export const Table = ({ data }: TableProps) => {
         <FlatList
           data={data}
           renderItem={renderItem}
+          keyExtractor={(item) => item.key}
           ListHeaderComponent={() => {
             return (
-              <View style={styles.tableHeader}>
+              <View style={styles.tableRow}>
                 <Text style={styles.tableColumnText}>COUNT</Text>
-                <Text style={styles.tableColumnText}>AMOUNT</Text>
-                <Text style={styles.tableColumnText}>TOTAL</Text>
+                <Text style={[styles.tableColumnText, { textAlign: "right" }]}>
+                  AMOUNT
+                </Text>
+                <Text style={[styles.tableColumnText, { textAlign: "right" }]}>
+                  PRICE
+                </Text>
               </View>
             );
           }}
@@ -49,9 +67,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   tableHeader: {
+    flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
-    backgroundColor: THEME.primary,
+    backgroundColor: THEME.white,
     paddingTop: 8,
     paddingBottom: 8,
   },
@@ -62,16 +80,26 @@ const styles = StyleSheet.create({
   },
   tableColumnText: {
     flex: 1,
+    fontSize: 16,
     textAlign: "center",
     color: THEME.textLight,
   },
   tableRow: {
     flex: 1,
+    padding: 8,
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
   },
   tableRowText: {
+    flex: 1,
     color: THEME.white,
     fontSize: 16,
+    textAlign: "right",
+  },
+  tableCountColumn: {
+    flex: 1,
+    fontSize: 16,
+    textAlign: "center",
+    color: THEME.white,
   },
 });
