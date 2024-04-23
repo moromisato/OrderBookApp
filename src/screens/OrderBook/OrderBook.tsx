@@ -2,8 +2,20 @@ import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import { THEME } from "../../theme/theme";
 import { Button } from "../../components/Button";
 import { Table } from "../../components/Table";
+import { useEffect } from "react";
+import startNetworkListener from "../../services/networkingService/networkingService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 export const OrderBook = () => {
+  useEffect(() => {
+    startNetworkListener();
+  }, []);
+
+  const isConnected = useSelector(
+    (state: RootState) => state.networking.isOnline
+  );
+
   const orderBookData = [
     [
       7254.7, //PRICE
@@ -37,7 +49,13 @@ export const OrderBook = () => {
         </View>
       </View>
       <View style={styles.content}>
-        <Table data={orderBookData} />
+        {isConnected ? (
+          <Table data={orderBookData} />
+        ) : (
+          <View>
+            <Text>OFFLINE</Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
