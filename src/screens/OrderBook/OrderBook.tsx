@@ -13,7 +13,6 @@ export const OrderBook = () => {
 
   useEffect(() => {
     startNetworkListener();
-    dispatch({ type: "socket/connect" });
   }, []);
 
   const isConnected = useSelector(
@@ -56,13 +55,28 @@ export const OrderBook = () => {
           <Button
             title="connect"
             onPress={() => {
-              dispatch({ type: "socket/send" });
+              dispatch({ type: "socket/connect" });
             }}
             variant="primary"
           />
           <Button
             title="disconnect"
             onPress={() => dispatch({ type: "socket/disconnect" })}
+            variant="secondary"
+          />
+          <Button
+            title="subscribe"
+            onPress={() =>
+              dispatch({
+                type: "socket/send",
+                payload: {
+                  event: "subscribe",
+                  channel: "book",
+                  symbol: "tBTCUSD",
+                  freq: "F1",
+                },
+              })
+            }
             variant="secondary"
           />
         </View>

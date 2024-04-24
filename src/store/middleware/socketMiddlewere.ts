@@ -28,11 +28,8 @@ export const socketMiddleware =
         break;
 
       case "socket/send":
-        socket.send({
-          event: "subscribe",
-          channel: "book",
-          symbol: "tBTCUSD",
-        });
+        const { payload } = action;
+        socket.send(payload);
         break;
 
       default:

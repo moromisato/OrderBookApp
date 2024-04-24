@@ -1,5 +1,6 @@
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { THEME } from "../../theme/theme";
+import { useCallback } from "react";
 
 interface TableProps {
   data: {
@@ -12,25 +13,28 @@ interface TableProps {
 }
 
 export const Table = ({ data }: TableProps) => {
-  const renderItem = ({
-    item,
-  }: {
-    item: {
-      key: string;
-      type: string;
-      price: number;
-      count: number;
-      amount: number;
-    };
-  }) => {
-    return (
-      <View style={styles.tableRow}>
-        <Text style={styles.tableCountColumn}>{item.count}</Text>
-        <Text style={styles.tableRowText}>{item.amount}</Text>
-        <Text style={styles.tableRowText}>{item.price}</Text>
-      </View>
-    );
-  };
+  const renderItem = useCallback(
+    ({
+      item,
+    }: {
+      item: {
+        key: string;
+        type: string;
+        price: number;
+        count: number;
+        amount: number;
+      };
+    }) => {
+      return (
+        <View style={styles.tableRow}>
+          <Text style={styles.tableCountColumn}>{item.count}</Text>
+          <Text style={styles.tableRowText}>{item.amount}</Text>
+          <Text style={styles.tableRowText}>{item.price}</Text>
+        </View>
+      );
+    },
+    []
+  );
 
   return (
     <View style={styles.container}>
