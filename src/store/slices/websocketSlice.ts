@@ -23,4 +23,5 @@ export const websocketSlice = createSlice({
 
 export const { connectToWebsocket, disconnectFromWebsocket, subscribe } =
   websocketSlice.actions;
+
 export default websocketSlice.reducer;
