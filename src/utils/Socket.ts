@@ -30,6 +30,7 @@ export class Socket {
     if (this.socket) {
       this.socket.close();
       this.socket = null;
+      console.log("disconnecting from socket");
     }
   }
 

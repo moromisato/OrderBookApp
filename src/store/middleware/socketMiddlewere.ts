@@ -3,11 +3,11 @@ import { updateOrderBooks } from "../slices/orderBookSlice";
 
 export const socketMiddleware =
   (socket: Socket) => (params: any) => (next: any) => (action: any) => {
-    const { dispatch, getState } = params;
+    const { dispatch } = params;
     const { type } = action;
 
     switch (type) {
-      case "socket/connect":
+      case "websocket/connectToWebsocket":
         console.log("connect called from socket middlaware");
         socket.connect();
 
@@ -23,12 +23,13 @@ export const socketMiddleware =
         });
         break;
 
-      case "socket/disconnect":
+      case "websocket/disconnectFromWebsocket":
         socket.disconnect();
         break;
 
-      case "socket/send":
+      case "websocket/subscribe":
         const { payload } = action;
+        console.log("calling subscribe with ", payload);
         socket.send(payload);
         break;
 

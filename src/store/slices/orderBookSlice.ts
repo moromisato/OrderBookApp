@@ -8,11 +8,15 @@ type PriceLevel = {
 export type OrderBookStructure = {
   bids: Record<number, PriceLevel>;
   asks: Record<number, PriceLevel>;
+  precision?: string;
 };
+
+const availablePrecisions = ["P0", "P1", "P2", "P3", "P4"];
 
 const initialState = {
   bids: {},
   asks: {},
+  precision: availablePrecisions[0],
 };
 
 const convertToBidsAsksStructure = (orderBooks: [number, number, number][]) => {
@@ -37,6 +41,25 @@ export const orderBookSlice = createSlice({
   name: "orderBook",
   initialState,
   reducers: {
+    updatePrecision: (state: OrderBookStructure, action) => {
+      const currentPrecisionIndex = availablePrecisions.findIndex(
+        (precision) => precision === state.precision,
+      );
+      if (
+        action.payload.changePrecision === "increase" &&
+        currentPrecisionIndex + 1 < availablePrecisions.length
+      ) {
+        const nextPrecisionIndex = currentPrecisionIndex + 1;
+        state.precision = availablePrecisions[nextPrecisionIndex];
+      }
+      if (
+        action.payload.changePrecision === "decrease" &&
+        currentPrecisionIndex - 1 >= 0
+      ) {
+        const nextPrecisionIndex = currentPrecisionIndex - 1;
+        state.precision = availablePrecisions[nextPrecisionIndex];
+      }
+    },
     updateOrderBooks: (state: OrderBookStructure, action) => {
       if (action.payload.length == 2 && action.payload[1].length > 3) {
         const { bids, asks } = convertToBidsAsksStructure(action.payload[1]);
@@ -64,5 +87,5 @@ export const orderBookSlice = createSlice({
   },
 });
 
-export const { updateOrderBooks } = orderBookSlice.actions;
+export const { updateOrderBooks, updatePrecision } = orderBookSlice.actions;
 export default orderBookSlice.reducer;

@@ -40,6 +40,7 @@ export const Button = ({ title, variant, onPress }: ButtonProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     width: 100,
     height: 35,
     justifyContent: "center",
