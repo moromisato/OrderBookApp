@@ -10,8 +10,7 @@ import { Button } from "../../components/Button";
 import { Table } from "../../components/Table";
 import { useEffect } from "react";
 import startNetworkListener from "../../services/networkingService/networkingService";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   OrderBookStructure,
   updatePrecision,
@@ -23,19 +22,15 @@ import {
 } from "../../store/slices/websocketSlice";
 
 export const OrderBook = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     startNetworkListener();
   }, []);
 
-  const isConnected = useSelector(
-    (state: RootState) => state.networking.isOnline,
-  );
+  const isConnected = useAppSelector((state) => state.networking.isOnline);
 
-  const { asks, bids, precision } = useSelector(
-    (state: RootState) => state.orderBook,
-  );
+  const { asks, bids, precision } = useAppSelector((state) => state.orderBook);
 
   useEffect(() => {
     console.log("changed precision to ", precision);

@@ -14,10 +14,12 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       socketMiddleware(
-        new Socket(process.env.EXPO_PUBLIC_BITFINEX_WS_URL ?? "")
-      )
+        new Socket(process.env.EXPO_PUBLIC_BITFINEX_WS_URL ?? ""),
+      ),
     ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
 export default store;
